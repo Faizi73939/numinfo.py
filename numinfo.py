@@ -14,8 +14,16 @@ Date    : 2025-12-29
 
 Important note for users:
 If you use, modify, fork, or redistribute this file or code derived from it,
-please keep the Author / Coder Details block intact and give clear credit to:
-Faizi Mods (Telegram)
+plea
+def logo():
+    type_print(" _   _                 _        __      ", color=Fore.GREEN)
+type_print("| \\ | |               (_)      / _|     ", color=Fore.BLUE)
+type_print("|  \\| |_   _ _ __ ___  _ _ __ | |_ ___  ", color=Fore.RED)
+type_print("| . ` | | | | '_ ` _ \\| | '_ \\|  _/ _ \\ ", color=Fore.GREEN)
+type_print("| |\\  | |_| | | | | | | | | | | || (_) |", color=Fore.BLUE)
+type_print("|_| \\_|\\__,_|_| |_| |_|_|_| |_|_| \\___/ ", color=Fore.RED)
+
+type_print("🔥 INFO TOOL v1.0 (Developed by Faizi Mods) 🔥", color=Fore.RED)
 
 .
 ------------------------------------------------
@@ -100,13 +108,6 @@ def save_to_file(data):
     with open("results.txt", "a", encoding="utf-8") as f:
         f.write(data + "\n")
 
-def logo():
-    type_print("███    ██ ██    ██ ███    ███ ██████  ███████ ██   ██", color=Fore.GREEN)
-    type_print("████   ██ ██    ██ ████  ████ ██   ██ ██       ██ ██", color=Fore.BLUE)
-    type_print("██ ██  ██ ██    ██ ██ ████ ██ ██   ██ █████     ███", color=Fore.RED)
-    type_print("██  ██ ██ ██    ██ ██  ██  ██ ██   ██ ██       ██ ██", color=Fore.GREEN)
-    type_print("██   ████  ██████  ██      ██ ██████  ███████ ██   ██", color=Fore.BLUE)
-    type_print("🔥 INFO TOOL v1.0 (Developed by Faizi Mods) 🔥", color=Fore.RED)
 
     details = [
         (Fore.GREEN, "👑 Owner Details"),
