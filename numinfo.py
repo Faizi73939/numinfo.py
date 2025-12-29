@@ -106,7 +106,7 @@ def logo():
     type_print("██ ██  ██ ██    ██ ██ ████ ██ ██   ██ █████     ███", color=Fore.RED)
     type_print("██  ██ ██ ██    ██ ██  ██  ██ ██   ██ ██       ██ ██", color=Fore.GREEN)
     type_print("██   ████  ██████  ██      ██ ██████  ███████ ██   ██", color=Fore.BLUE)
-    type_print("🔥 INFO TOOL v1.0 (Developed by RIZWAN ALI) 🔥", color=Fore.RED)
+    type_print("🔥 INFO TOOL v1.0 (Developed by Faizi Mods) 🔥", color=Fore.RED)
 
     details = [
         (Fore.GREEN, "👑 Owner Details"),
