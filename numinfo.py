@@ -16,12 +16,15 @@ Important note for users:
 If you use, modify, fork, or redistribute this file or code derived from it,
 plea
 def logo():
+    def logo():
     type_print(" _   _ _   _ __  __ _____ _   _ _____ ___ ", color=Fore.GREEN)
-type_print("| \\ | | | | |  \\/  |_   _| \\ | |  ___/ _ \\", color=Fore.BLUE)
-type_print("|  \\| | | | | |\\/| | | | |  \\| | |_ | | | |", color=Fore.RED)
-type_print("| . ` | | | | |  | | | | | . ` |  _|| | | |", color=Fore.GREEN)
-type_print("| |\\  | |_| | |  | |_| |_| |\\  | |  | |_| |", color=Fore.BLUE)
-type_print("|_| \\_|\\___/|_|  |_|_____|_| \\_|_|   \\___/ ", color=Fore.BLUE)
+    type_print("| \\ | | | | |  \\/  |_   _| \\ | |  ___/ _ \\", color=Fore.BLUE)
+    type_print("|  \\| | | | | |\\/| | | | |  \\| | |_ | | | |", color=Fore.RED)
+    type_print("| . ` | | | | |  | | | | | . ` |  _|| | | |", color=Fore.GREEN)
+    type_print("| |\\  | |_| | |  | |_| |_| |\\  | |  | |_| |", color=Fore.BLUE)
+    type_print("|_| \\_|\\___/|_|  |_|_____|_| \\_|_|   \\___/ ", color=Fore.BLUE)
+
+    type_print("🔥 INFO TOOL v1.0 (Developed by RIZWAN ALI) 🔥", color=Fore.RED)
 type_print("🔥 INFO TOOL v1.0 (Developed by RIZWAN ALI) 🔥", color=Fore.RED)
 # keep the Author / Coder Details block intact and give clear credit to:
 # Faizi Mods (Telegram)
