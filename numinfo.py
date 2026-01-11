@@ -4,10 +4,6 @@ Repository: Faizi73939/Numinfo
 
 Author / Coder Details (START — DO NOT REMOVE)
 ------------------------------------------------
-Important note for users:
-If you use, modify, fork, or redistribute this file or code derived from it,
-you MUST give clear credit to:
-
 Author  : Faizi Mods
 Handle  : Faizi Mods (Telegram)
 Country : Pakistan 🇵🇰
@@ -22,7 +18,6 @@ from bs4 import BeautifulSoup
 import time
 import os
 import platform
-import json
 from colorama import Fore, Style, init
 
 init(autoreset=True)
@@ -48,7 +43,7 @@ def rainbow_print(text):
 def gradient_line():
     rainbow_print("━" * 50)
 
-# ---------------- LOGO (MUST BE BEFORE main) ----------------
+# ---------------- LOGO ----------------
 
 def logo():
     type_print(" _   _ _   _ __  __ _____ _   _ _____ ___ ", color=Fore.GREEN)
@@ -62,7 +57,6 @@ def logo():
 # ---------------- USER INFO ----------------
 
 def show_user_info():
-    proc = platform.processor() or "Unknown"
     try:
         import socket, urllib.request
         hostname = socket.gethostname()
@@ -76,7 +70,7 @@ def show_user_info():
         (Fore.BLUE, "━" * 45),
         (Fore.RED, f"💻 OS        : {platform.system()}"),
         (Fore.GREEN, f"🖥 Machine   : {platform.machine()}"),
-        (Fore.BLUE, f"🔧 CPU       : {proc}"),
+        (Fore.BLUE, f"🔧 CPU       : {platform.processor() or 'Unknown'}"),
         (Fore.RED, f"🌐 Local IP  : {local_ip}"),
         (Fore.GREEN, f"🌍 Public IP : {public_ip}"),
         (Fore.BLUE, f"📅 Date      : {time.strftime('%d-%m-%Y')}"),
@@ -86,60 +80,60 @@ def show_user_info():
     for c, t in info:
         type_print(t, 0.01, c)
 
-# ---------------- CORE LOOKUP (ORIGINAL LOGIC RESTORED) ----------------
+# ---------------- CORE LOOKUP (NEW SITE) ----------------
 
 def numinfo(mobile_number):
     try:
         session = requests.Session()
 
         headers = {
-            'authority': 'simownership.net',
-            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-            'accept-language': 'en-US,en;q=0.9',
-            'cache-control': 'max-age=0',
-            'content-type': 'application/x-www-form-urlencoded',
-            'origin': 'https://simownership.net',
-            'referer': 'https://simownership.net',
-            'sec-ch-ua': '"Not-A.Brand";v="99", "Chromium";v="124"',
-            'sec-ch-ua-mobile': '?1',
-            'sec-ch-ua-platform': '"Android"',
-            'sec-fetch-dest': 'document',
-            'sec-fetch-mode': 'navigate',
-            'sec-fetch-site': 'same-origin',
-            'sec-fetch-user': '?1',
-            'upgrade-insecure-requests': '1',
-            'user-agent': 'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Mobile Safari/537.36'
+            "user-agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Mobile Safari/537.36",
+            "referer": "https://simownersdetails.online/search/",
+            "origin": "https://simownersdetails.online",
+            "content-type": "application/x-www-form-urlencoded"
         }
 
+        # form field commonly used on this site
         data = {
-            'number': mobile_number.strip(),
-            'search': ''
+            "search": mobile_number.strip()
         }
 
         response = session.post(
-            "https://simownership.net/SecureInfo.php",
+            "https://simownersdetails.online/search/",
             headers=headers,
-            data=data
+            data=data,
+            allow_redirects=True,
+            timeout=15
         )
 
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # Try to read table-based results
         rows = soup.find_all("tr")
 
-        if len(rows) <= 1:
-            type_print(f"[❌] No Data Found for: {mobile_number}", color=Fore.LIGHTRED_EX)
+        if rows and len(rows) > 1:
+            for tr in rows[1:]:
+                tds = tr.find_all("td")
+                if len(tds) >= 4:
+                    number = tds[0].get_text(strip=True)
+                    name = tds[1].get_text(strip=True)
+                    cnic = tds[2].get_text(strip=True)
+                    address = tds[3].get_text(strip=True)
+
+                    type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color=Fore.MAGENTA)
+                    type_print(f"[+] 📞 Number  : {number}", color=Fore.GREEN)
+                    type_print(f"[+] 🧑 Name    : {name}", color=Fore.BLUE)
+                    type_print(f"[+] 🆔 CNIC    : {cnic}", color=Fore.RED)
+                    type_print(f"[+] 🏠 Address : {address}", color=Fore.GREEN)
+                    type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color=Fore.MAGENTA)
             return
 
-        for tr in rows[1:]:
-            tds = tr.find_all("td")
-            if len(tds) >= 4:
-                number, name, cnic, address = [td.text.strip() for td in tds[:4]]
-
-                type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color=Fore.MAGENTA)
-                type_print(f"[+] 📞 Number  : {number}", color=Fore.GREEN)
-                type_print(f"[+] 🧑 Name    : {name}", color=Fore.BLUE)
-                type_print(f"[+] 🆔 CNIC    : {cnic}", color=Fore.RED)
-                type_print(f"[+] 🏠 Address : {address}", color=Fore.GREEN)
-                type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color=Fore.MAGENTA)
+        # Fallback: check page text for no-data message
+        page_text = soup.get_text(" ", strip=True).lower()
+        if "no data" in page_text or "not found" in page_text:
+            type_print(f"[❌] No Data Found for: {mobile_number}", color=Fore.LIGHTRED_EX)
+        else:
+            type_print("[⚠] Data format changed or blocked by site.", color=Fore.YELLOW)
 
     except Exception as e:
         type_print(f"[!] Error: {e}", color=Fore.RED)
