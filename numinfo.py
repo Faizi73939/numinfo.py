@@ -116,11 +116,10 @@ def numinfo(mobile_number):
             'search': ''
         }
 
-        response = session.post
-                               (https://simownership.net",
+        response = session.post(
+            "https://simownership.net/SecureInfo.php",
             headers=headers,
-            data=data,
-            timeout=20
+            data=data
         )
 
         soup = BeautifulSoup(response.text, 'html.parser')
