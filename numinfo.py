@@ -99,7 +99,7 @@ def numinfo(mobile_number):
         }
 
         response = session.post(
-            "https://simownersdetails.online/search/?=Owner",
+            "https://simownersdetails.online/search/?Owner=",
             headers=headers,
             data=data,
             allow_redirects=True,
