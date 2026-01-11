@@ -93,13 +93,13 @@ def numinfo(mobile_number):
         session = requests.Session()
 
         headers = {
-            'authority': 'freshsimownerdetails.com',
+            'authority': 'simownership.net',
             'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
             'accept-language': 'en-US,en;q=0.9',
             'cache-control': 'max-age=0',
             'content-type': 'application/x-www-form-urlencoded',
-            'origin': 'https://freshsimownerdetails.com',
-            'referer': 'https://freshsimownerdetails.com/SimDetails.php',
+            'origin': 'https://simownership.net',
+            'referer': 'https://simownership.net',
             'sec-ch-ua': '"Not-A.Brand";v="99", "Chromium";v="124"',
             'sec-ch-ua-mobile': '?1',
             'sec-ch-ua-platform': '"Android"',
@@ -116,8 +116,7 @@ def numinfo(mobile_number):
             'search': ''
         }
 
-        response = session.post(
-            "https://freshsimownerdetails.com/SecureInfo.php",
+        response = session.post(https://simownership.net",
             headers=headers,
             data=data,
             timeout=20
