@@ -88,8 +88,8 @@ def numinfo(mobile_number):
 
         headers = {
             "user-agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Mobile Safari/537.36",
-            "referer": "https://simownersdetails.online/search/",
-            "origin": "https://simownersdetails.online",
+            "referer": "https://simownersdetails.online",
+            "origin": "https://simownersdetails.online/Search/",
             "content-type": "application/x-www-form-urlencoded"
         }
 
@@ -99,7 +99,7 @@ def numinfo(mobile_number):
         }
 
         response = session.post(
-            "https://simownersdetails.online/search/",
+            "https://simownersdetails.online/search/?=Owner",
             headers=headers,
             data=data,
             allow_redirects=True,
