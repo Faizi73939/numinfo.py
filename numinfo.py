@@ -89,7 +89,7 @@ def numinfo(mobile_number):
         headers = {
             "user-agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Mobile Safari/537.36",
             "referer": "https://pamsim.info",
-            "origin": "https://paksim.info/search.php/",
+            "origin": "https://paksim.info/search-free-sim-database-online-2022.php/",
             "content-type": "application/x-www-form-urlencoded"
         }
 
