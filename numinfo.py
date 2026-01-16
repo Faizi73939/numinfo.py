@@ -1,8 +1,6 @@
 """
 NumDex — numinfo.py
-Repository: Faizi73939/Numinfo
 Author  : Faizi Mods
-Country : Pakistan 🇵🇰
 """
 
 import requests
@@ -45,13 +43,13 @@ def gradient_line():
 # ---------------- LOGO ----------------
 
 def logo():
-    type_print(" _   _ _   _ __  __ _____ _   _ _____ ___ ", color=Fore.GREEN)
-    type_print("| \\ | | | | |  \\/  |_   _| \\ | |  ___/ _ \\", color=Fore.BLUE)
-    type_print("|  \\| | | | | |\\/| | | | |  \\| | |_ | | | |", color=Fore.RED)
-    type_print("| . ` | | | | |  | | | | | . ` |  _|| | | |", color=Fore.GREEN)
-    type_print("| |\\  | |_| | |  | |_| |_| |\\  | |  | |_| |", color=Fore.BLUE)
-    type_print("|_| \\_|\\___/|_|  |_|_____|_| \\_|_|   \\___/ ", color=Fore.BLUE)
-    type_print("🔥 INFO TOOL v1.0 (Developed by Faizi Mods) 🔥", color=Fore.RED)
+    type_print(" _   _ _   _ __  __ _____ _   _ _____ ___ ", Fore.GREEN)
+    type_print("| \\ | | | | |  \\/  |_   _| \\ | |  ___/ _ \\", Fore.BLUE)
+    type_print("|  \\| | | | | |\\/| | | | |  \\| | |_ | | | |", Fore.RED)
+    type_print("| . ` | | | | |  | | | | | . ` |  _|| | | |", Fore.GREEN)
+    type_print("| |\\  | |_| | |  | |_| |_| |\\  | |  | |_| |", Fore.BLUE)
+    type_print("|_| \\_|\\___/|_|  |_|_____|_| \\_|_|   \\___/ ", Fore.BLUE)
+    type_print("🔥 INFO TOOL v1.0 (Faizi Mods) 🔥", Fore.RED)
 
 # ---------------- USER INFO ----------------
 
@@ -60,7 +58,7 @@ def show_user_info():
         import socket, urllib.request
         hostname = socket.gethostname()
         local_ip = socket.gethostbyname(hostname)
-        public_ip = urllib.request.urlopen("https://api.ipify.org").read().decode().strip()
+        public_ip = urllib.request.urlopen("https://api.ipify.org").read().decode()
     except:
         local_ip = public_ip = "Unknown"
 
@@ -72,24 +70,21 @@ def show_user_info():
         (Fore.BLUE, f"🔧 CPU       : {platform.processor() or 'Unknown'}"),
         (Fore.RED, f"🌐 Local IP  : {local_ip}"),
         (Fore.GREEN, f"🌍 Public IP : {public_ip}"),
-        (Fore.BLUE, f"📅 Date      : {time.strftime('%d-%m-%Y')}"),
-        (Fore.RED, f"⏰ Time      : {time.strftime('%H:%M:%S')}"),
         (Fore.BLUE, "━" * 45)
     ]
 
     for c, t in info:
         type_print(t, 0.01, c)
 
-# ---------------- CORE LOOKUP ----------------
+# ---------------- LOOKUP FUNCTION ----------------
 
 def numinfo(mobile_number):
     try:
         session = requests.Session()
 
         headers = {
-            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "user-agent": "Mozilla/5.0 (Linux; Android 13)",
             "content-type": "application/x-www-form-urlencoded",
-            "user-agent": "Mozilla/5.0 (Linux; Android 13) Chrome/137 Mobile Safari/537.36",
             "referer": "https://paksim.info/search.php",
             "origin": "https://paksim.info",
             "cookie": "agent=923319728307"
@@ -113,18 +108,18 @@ def numinfo(mobile_number):
             for tr in rows[1:]:
                 tds = tr.find_all("td")
                 if len(tds) >= 4:
-                    type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color=Fore.MAGENTA)
-                    type_print(f"[+] 📞 Number  : {tds[0].get_text(strip=True)}", color=Fore.GREEN)
-                    type_print(f"[+] 🧑 Name    : {tds[1].get_text(strip=True)}", color=Fore.BLUE)
-                    type_print(f"[+] 🆔 CNIC    : {tds[2].get_text(strip=True)}", color=Fore.RED)
-                    type_print(f"[+] 🏠 Address : {tds[3].get_text(strip=True)}", color=Fore.GREEN)
-                    type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", color=Fore.MAGENTA)
+                    type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", Fore.MAGENTA)
+                    type_print(f"📞 Number  : {tds[0].text.strip()}", Fore.GREEN)
+                    type_print(f"🧑 Name    : {tds[1].text.strip()}", Fore.BLUE)
+                    type_print(f"🆔 CNIC    : {tds[2].text.strip()}", Fore.RED)
+                    type_print(f"🏠 Address : {tds[3].text.strip()}", Fore.GREEN)
+                    type_print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━", Fore.MAGENTA)
             return
 
-        type_print("[❌] No Data Found or Cookie Expired", color=Fore.LIGHTRED_EX)
+        type_print("❌ No Data Found / Cookie Expired", Fore.LIGHTRED_EX)
 
     except Exception as e:
-        type_print(f"[!] Error: {e}", color=Fore.RED)
+        type_print(f"Error: {e}", Fore.RED)
 
 # ---------------- MAIN ----------------
 
@@ -135,54 +130,15 @@ def main():
     gradient_line()
 
     while True:
-        ans = input(f"\n{Fore.CYAN}[❓] Search data? (yes/no): {Style.RESET_ALL}").strip().lower()
+        ans = input("\nSearch data? (yes/no): ").strip().lower()
         if ans == "no":
-            type_print("👋 Tool closed. Shukriya!", color=Fore.MAGENTA)
             break
         elif ans == "yes":
-            mobile = input(f"{Fore.YELLOW}[📲] Enter Mobile/CNIC: {Style.RESET_ALL}").strip()
+            mobile = input("Enter Mobile/CNIC: ").strip()
             if mobile:
-                type_print("🔍 Searching...\n", color=Fore.YELLOW)
                 numinfo(mobile)
-            else:
-                type_print("[⚠] Empty input!", color=Fore.LIGHTRED_EX)
         else:
-            type_print("[⚠] Sirf yes ya no likhein.", color=Fore.LIGHTRED_EX)
-
-# ---------------- RUN ----------------
-
-if __name__ == "__main__":
-    main()_text = soup.get_text(" ", strip=True).lower()
-        if "no data" in page_text or "not found" in page_text:
-            type_print(f"[❌] No Data Found for: {mobile_number}", color=Fore.LIGHTRED_EX)
-        else:
-            type_print("[⚠] Data format changed or blocked by site.", color=Fore.YELLOW)
-
-    except Exception as e:
-        type_print(f"[!] Error: {e}", color=Fore.RED)
-
-# ---------------- MAIN ----------------
-
-def main():
-    clear_screen()
-    logo()
-    show_user_info()
-    gradient_line()
-
-    while True:
-        ans = input(f"\n{Fore.CYAN}[❓] Search data? (yes/no): {Style.RESET_ALL}").strip().lower()
-        if ans == "no":
-            type_print("👋 Tool closed. Shukriya!", color=Fore.MAGENTA)
-            break
-        elif ans == "yes":
-            mobile = input(f"{Fore.YELLOW}[📲] Enter Mobile/CNIC: {Style.RESET_ALL}").strip()
-            if mobile:
-                type_print("🔍 Searching...\n", color=Fore.YELLOW)
-                numinfo(mobile)
-            else:
-                type_print("[⚠] Empty input!", color=Fore.LIGHTRED_EX)
-        else:
-            type_print("[⚠] Sirf yes ya no likhein.", color=Fore.LIGHTRED_EX)
+            print("Sirf yes ya no likhein")
 
 # ---------------- RUN ----------------
 
