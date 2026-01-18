@@ -14,11 +14,13 @@ from colorama import Fore, Style, init
 
 init(autoreset=True)
 
+# ================= CONFIG =================
+
 WIDTH = 72
 TYPE_SPEED = 0.01
 
 API_URL = "https://livetracker.net.pk/wp-admin/admin-ajax.php"
-NONCE = "0fafa43211"
+NONCE = "0fafa43211"   # ⚠️ Expire ho jaye to update karna
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android)",
@@ -36,7 +38,7 @@ QUOTES = [
     "Responsibility defines the user."
 ]
 
-# ================= UI HELPERS =================
+# ================= BASIC UI =================
 
 def clear():
     os.system("cls" if platform.system() == "Windows" else "clear")
@@ -84,6 +86,23 @@ def ascii_logo():
     robot_beep("Welcome to Faizi Mods Tool", 0.04)
     line("═", Fore.MAGENTA)
 
+# ================= WARNING (FIXED) =================
+
+def warning():
+    print(Fore.RED + "!" * WIDTH)
+    slow_print(
+        "⚠️ WARNING: Do not use this tool for any illegal or wrong purpose.",
+        Fore.YELLOW,
+        center=True
+    )
+    slow_print(
+        "You are fully responsible for your own actions.",
+        Fore.YELLOW,
+        center=True
+    )
+    print(Fore.RED + "!" * WIDTH)
+    time.sleep(1)
+
 # ================= INFO SECTIONS =================
 
 def show_quote_datetime():
@@ -115,6 +134,9 @@ def device_details():
 # ================= SEARCH =================
 
 def numinfo(query):
+    # ✅ WARNING AB SEARCH SE PEHLE AAYEGI
+    warning()
+
     robot_beep("Searching details please wait", 0.04, Fore.CYAN)
     line("─", Fore.CYAN)
 
