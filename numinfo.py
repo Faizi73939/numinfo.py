@@ -132,7 +132,7 @@ def warning():
     print(Fore.RED + "!" * WIDTH)
     time.sleep(1)
 
-# ================= NUMINFO SEARCH =================
+# ================= NUMINFO SEARCH (FIXED) =================
 
 def numinfo(query):
     robot_beep("Searching details please wait", 0.04, Fore.CYAN)
@@ -146,17 +146,30 @@ def numinfo(query):
 
     try:
         r = requests.post(API_URL, headers=HEADERS, data=payload, timeout=20)
-        res = r.json()
+        try:
+            res = r.json()
+        except:
+            robot_beep("Invalid server response", 0.05, Fore.RED)
+            return
     except:
         robot_beep("Network error occurred", 0.05, Fore.RED)
         return
 
-    if not res.get("success"):
+    if not isinstance(res, dict):
+        robot_beep("Unexpected response from server", 0.05, Fore.RED)
+        return
+
+    if res.get("success") is not True:
         robot_beep("No record found", 0.05, Fore.RED)
         return
 
-    records = res.get("data", {}).get("Mobile", [])
-    if not records:
+    data = res.get("data")
+    if not isinstance(data, dict):
+        robot_beep("No valid data returned", 0.05, Fore.RED)
+        return
+
+    records = data.get("Mobile")
+    if not isinstance(records, list) or not records:
         robot_beep("No SIM data available", 0.05, Fore.RED)
         return
 
@@ -164,6 +177,9 @@ def numinfo(query):
     line("═", Fore.MAGENTA)
 
     for i, rec in enumerate(records, 1):
+        if not isinstance(rec, dict):
+            continue
+
         robot_beep(f"Record {i} Found", 0.04, Fore.LIGHTYELLOW_EX)
         line("─", Fore.MAGENTA)
 
@@ -174,7 +190,7 @@ def numinfo(query):
 
         line("═", Fore.MAGENTA)
 
-# ================= EXIT (COLOR ONLY) =================
+# ================= EXIT =================
 
 def exit_msg():
     line("═", Fore.MAGENTA)
