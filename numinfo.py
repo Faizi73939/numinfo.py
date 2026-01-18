@@ -14,14 +14,10 @@ from colorama import Fore, Style, init
 
 init(autoreset=True)
 
-# ================= CONFIG =================
-
 WIDTH = 72
 TYPE_SPEED = 0.01
 
 API_URL = "https://livetracker.net.pk/wp-admin/admin-ajax.php"
-
-# ⚠️ Update this nonce when it expires
 NONCE = "0fafa43211"
 
 HEADERS = {
@@ -40,7 +36,7 @@ QUOTES = [
     "Responsibility defines the user."
 ]
 
-# ================= BASIC UI =================
+# ================= UI HELPERS =================
 
 def clear():
     os.system("cls" if platform.system() == "Windows" else "clear")
@@ -59,8 +55,6 @@ def slow_print(text, color=Fore.WHITE, delay=TYPE_SPEED, center=False):
 def colored_input(text, color):
     return input(color + text + Style.RESET_ALL)
 
-# ================= BEEP =================
-
 def robot_beep(text, speed=0.05, color=Fore.LIGHTGREEN_EX):
     print(color, end="", flush=True)
     for ch in text:
@@ -70,7 +64,7 @@ def robot_beep(text, speed=0.05, color=Fore.LIGHTGREEN_EX):
         time.sleep(speed)
     print(Style.RESET_ALL)
 
-# ================= NUMINFO ASCII (FULL & ONLY THIS) =================
+# ================= ASCII LOGO =================
 
 def ascii_logo():
     clear()
@@ -90,7 +84,7 @@ def ascii_logo():
     robot_beep("Welcome to Faizi Mods Tool", 0.04)
     line("═", Fore.MAGENTA)
 
-# ================= QUOTE + DATE TIME =================
+# ================= INFO SECTIONS =================
 
 def show_quote_datetime():
     now = datetime.now()
@@ -100,42 +94,25 @@ def show_quote_datetime():
     slow_print(f"⏰ Time  : {now.strftime('%I:%M:%S %p')}", Fore.CYAN, center=True)
     line("═", Fore.GREEN)
 
-# ================= DEVELOPER DETAILS =================
-
 def developer_details():
     slow_print("👨‍💻 DEVELOPER DETAILS", Fore.GREEN, center=True)
     line("─", Fore.GREEN)
-
     slow_print("🧑 Developer Name   : Faizan Rajpoot", Fore.CYAN)
     slow_print("⚙️ Developer Status : Broken", Fore.RED)
     slow_print("📞 Developer WP     : 03706058550", Fore.GREEN)
     slow_print("📢 Channel Name     : Faizi Mods", Fore.BLUE)
     slow_print("❤️ Favorite Anime   : Itachi Uchiha", Fore.MAGENTA)
-
     line("═", Fore.GREEN)
-
-# ================= DEVICE DETAILS =================
 
 def device_details():
     slow_print("📱 DEVICE DETAILS", Fore.YELLOW, center=True)
     line("─", Fore.YELLOW)
-
     slow_print(f"💻 OS        : {platform.system()} {platform.release()}", Fore.CYAN)
     slow_print(f"🧠 Machine   : {platform.machine()}", Fore.CYAN)
     slow_print(f"🧩 Processor : {platform.processor() or 'Unknown'}", Fore.CYAN)
-
     line("═", Fore.YELLOW)
 
-# ================= WARNING =================
-
-def warning():
-    print(Fore.RED + "!" * WIDTH)
-    slow_print("⚠️ Do not use this tool for illegal or wrong purposes.", Fore.YELLOW, center=True)
-    slow_print("You are responsible for your own actions.", Fore.YELLOW, center=True)
-    print(Fore.RED + "!" * WIDTH)
-    time.sleep(1)
-
-# ================= NUMINFO SEARCH =================
+# ================= SEARCH =================
 
 def numinfo(query):
     robot_beep("Searching details please wait", 0.04, Fore.CYAN)
@@ -155,37 +132,26 @@ def numinfo(query):
         return
 
     if raw == "0":
-        robot_beep("Token expired or request blocked", 0.05, Fore.RED)
-        robot_beep("Update NONCE and try again", 0.05, Fore.YELLOW)
+        robot_beep("Token expired — update NONCE", 0.05, Fore.RED)
         return
 
     try:
         res = json.loads(raw)
     except:
-        robot_beep("Server did not return valid JSON", 0.05, Fore.RED)
+        robot_beep("Invalid server response", 0.05, Fore.RED)
         return
 
-    if not isinstance(res, dict) or res.get("success") is not True:
+    if not res.get("success"):
         robot_beep("No record found", 0.05, Fore.RED)
         return
 
     records = res.get("data", {}).get("Mobile", [])
-    if not isinstance(records, list) or not records:
-        robot_beep("No SIM data available", 0.05, Fore.RED)
-        return
-
-    warning()
-    line("═", Fore.MAGENTA)
-
     for i, rec in enumerate(records, 1):
-        robot_beep(f"Record {i} Found", 0.04, Fore.LIGHTYELLOW_EX)
-        line("─", Fore.MAGENTA)
-
-        slow_print(f"👤 Name     : {rec.get('Name','N/A')}", Fore.GREEN)
-        slow_print(f"🆔 CNIC     : {rec.get('CNIC','N/A')}", Fore.GREEN)
-        slow_print(f"📞 Mobile   : {rec.get('Mobile','N/A')}", Fore.GREEN)
-        slow_print(f"🏠 Address  : {rec.get('Address','N/A')}", Fore.GREEN)
-
+        robot_beep(f"Record {i}", 0.04, Fore.LIGHTYELLOW_EX)
+        slow_print(f"👤 Name    : {rec.get('Name','N/A')}", Fore.GREEN)
+        slow_print(f"🆔 CNIC    : {rec.get('CNIC','N/A')}", Fore.GREEN)
+        slow_print(f"📞 Mobile  : {rec.get('Mobile','N/A')}", Fore.GREEN)
+        slow_print(f"🏠 Address : {rec.get('Address','N/A')}", Fore.GREEN)
         line("═", Fore.MAGENTA)
 
 # ================= EXIT =================
@@ -194,7 +160,6 @@ def exit_msg():
     line("═", Fore.MAGENTA)
     robot_beep("Thanks for using NUMINFO Tool", 0.04, Fore.GREEN)
     slow_print("📢 Join Telegram Channel : Faizi Mods", Fore.BLUE, center=True)
-    slow_print("🤝 Developed by Faizan Rajpoot", Fore.CYAN, center=True)
     slow_print("👋 Allah Hafiz — Tool Closed", Fore.YELLOW, center=True)
     line("═", Fore.MAGENTA)
 
@@ -207,132 +172,16 @@ def main():
     device_details()
 
     while True:
-        ans = colored_input("🔍 Search SIM data? (yes/no): ", Fore.CYAN).lower().strip()
+        ans = colored_input("🔍 Search SIM data? (yes/no): ", Fore.CYAN).lower()
         if ans == "no":
             exit_msg()
             break
         elif ans == "yes":
-            q = colored_input("📥 Enter Mobile / CNIC: ", Fore.YELLOW).strip()
-            if q:
+            q = colored_input("📥 Enter Mobile / CNIC: ", Fore.YELLOW)
+            if q.strip():
                 numinfo(q)
         else:
             robot_beep("Please type yes or no", 0.05, Fore.RED)
-
-# ================= RUN =================
-
-if __name__ == "__main__":
-    main()    slow_print("❤️ Favorite Anime   : Itachi Uchiha", Fore.MAGENTA)
-
-    line("═", Fore.GREEN)
-
-# ================= DEVICE DETAILS =================
-
-def device_details():
-    slow_print("📱 DEVICE DETAILS", Fore.YELLOW, center=True)
-    line("─", Fore.YELLOW)
-
-    slow_print(f"💻 OS        : {platform.system()} {platform.release()}", Fore.CYAN)
-    slow_print(f"🧠 Machine   : {platform.machine()}", Fore.CYAN)
-    slow_print(f"🧩 Processor : {platform.processor() or 'Unknown'}", Fore.CYAN)
-
-    line("═", Fore.YELLOW)
-
-# ================= WARNING =================
-
-def warning():
-    print(Fore.RED + "!" * WIDTH)
-    slow_print("⚠️ Do not use this tool for illegal or wrong purposes.", Fore.YELLOW, center=True)
-    slow_print("You are responsible for your own actions.", Fore.YELLOW, center=True)
-    print(Fore.RED + "!" * WIDTH)
-    time.sleep(1)
-
-# ================= NUMINFO SEARCH (STABLE) =================
-
-def numinfo(query):
-    robot_beep("Searching details please wait", 0.04, Fore.CYAN)
-    line("─", Fore.CYAN)
-
-    payload = {
-        "action": "fetch_simdata",
-        "nonce": NONCE,
-        "track": query.strip()
-    }
-
-    try:
-        r = requests.post(API_URL, headers=HEADERS, data=payload, timeout=20)
-        raw = r.text.strip()
-    except:
-        robot_beep("Network error occurred", 0.05, Fore.RED)
-        return
-
-    # WordPress block / nonce expired
-    if raw == "0":
-        robot_beep("Token expired or request blocked", 0.05, Fore.RED)
-        robot_beep("Update NONCE and try again", 0.05, Fore.YELLOW)
-        return
-
-    try:
-        res = json.loads(raw)
-    except:
-        robot_beep("Server did not return valid JSON", 0.05, Fore.RED)
-        return
-
-    if not isinstance(res, dict) or res.get("success") is not True:
-        robot_beep("No record found", 0.05, Fore.RED)
-        return
-
-    data = res.get("data", {})
-    records = data.get("Mobile", [])
-
-    if not isinstance(records, list) or not records:
-        robot_beep("No SIM data available", 0.05, Fore.RED)
-        return
-
-    warning()
-    line("═", Fore.MAGENTA)
-
-    for i, rec in enumerate(records, 1):
-        robot_beep(f"Record {i} Found", 0.04, Fore.LIGHTYELLOW_EX)
-        line("─", Fore.MAGENTA)
-
-        slow_print(f"👤 Name     : {rec.get('Name','N/A')}", Fore.GREEN)
-        slow_print(f"🆔 CNIC     : {rec.get('CNIC','N/A')}", Fore.GREEN)
-        slow_print(f"📞 Mobile   : {rec.get('Mobile','N/A')}", Fore.GREEN)
-        slow_print(f"🏠 Address  : {rec.get('Address','N/A')}", Fore.GREEN)
-
-        line("═", Fore.MAGENTA)
-
-# ================= EXIT (COLOR ONLY) =================
-
-def exit_msg():
-    line("═", Fore.MAGENTA)
-    robot_beep("Thanks for using NUMINFO Tool", 0.04, Fore.GREEN)
-    slow_print("📢 Join Telegram Channel : Faizi Mods", Fore.BLUE, center=True)
-    slow_print("🤝 Developed by Faizan Rajpoot", Fore.CYAN, center=True)
-    slow_print("👋 Allah Hafiz — Tool Closed", Fore.YELLOW, center=True)
-    line("═", Fore.MAGENTA)
-
-# ================= MAIN =================
-
-def main():
-    ascii_logo()
-    show_quote_datetime()
-    developer_details()
-    device_details()
-
-    while True:
-        ans = colored_input("🔍 Search SIM data? (yes/no): ", Fore.CYAN).lower().strip()
-        if ans == "no":
-            exit_msg()
-            break
-        elif ans == "yes":
-            q = colored_input("📥 Enter Mobile / CNIC: ", Fore.YELLOW).strip()
-            if q:
-                numinfo(q)
-        else:
-            robot_beep("Please type yes or no", 0.05, Fore.RED)
-
-# ================= RUN =================
 
 if __name__ == "__main__":
     main()
