@@ -8,6 +8,7 @@ import time
 import os
 import platform
 import random
+import json
 from datetime import datetime
 from colorama import Fore, Style, init
 
@@ -19,7 +20,7 @@ WIDTH = 70
 TYPE_SPEED = 0.01
 
 API_URL = "https://livetracker.net.pk/wp-admin/admin-ajax.php"
-NONCE = "fb638b05b4"
+NONCE = "fb638b05b4"   # update if expired
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android)",
@@ -67,17 +68,17 @@ def robot_beep(text, speed=0.05, color=Fore.LIGHTGREEN_EX):
         time.sleep(speed)
     print(Style.RESET_ALL)
 
-# ================= NUMINFO ASCII LOGO =================
+# ================= NUMINFO ASCII =================
 
 def ascii_logo():
     clear()
     logo = [
-        "███╗   ██╗██╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗ ██████╗ ",
-        "████╗  ██║██║   ██║████╗ ████║██║████╗  ██║██╔════╝██╔═══██╗",
-        "██╔██╗ ██║██║   ██║██╔████╔██║██║██╔██╗ ██║█████╗  ██║   ██║",
-        "██║╚██╗██║██║   ██║██║╚██╔╝██║██║██║╚██╗██║██╔══╝  ██║   ██║",
-        "██║ ╚████║╚██████╔╝██║ ╚═╝ ██║██║██║ ╚████║██║     ╚██████╔╝",
-        "╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝      ╚═════╝ "
+        "███╗   ██╗██╗   ██╗███╗   ███╗██╗███╗   ██╗███████╗",
+        "████╗  ██║██║   ██║████╗ ████║██║████╗  ██║██╔════╝",
+        "██╔██╗ ██║██║   ██║██╔████╔██║██║██╔██╗ ██║█████╗",
+        "██║╚██╗██║██║   ██║██║╚██╔╝██║██║██║╚██╗██║██╔══╝",
+        "██║ ╚████║╚██████╔╝██║ ╚═╝ ██║██║██║ ╚████║██║",
+        "╚═╝  ╚═══╝ ╚═════╝ ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝"
     ]
     for l in logo:
         slow_print(l, Fore.CYAN)
@@ -132,7 +133,7 @@ def warning():
     print(Fore.RED + "!" * WIDTH)
     time.sleep(1)
 
-# ================= NUMINFO SEARCH (FIXED) =================
+# ================= NUMINFO SEARCH (REAL FIX) =================
 
 def numinfo(query):
     robot_beep("Searching details please wait", 0.04, Fore.CYAN)
@@ -146,17 +147,26 @@ def numinfo(query):
 
     try:
         r = requests.post(API_URL, headers=HEADERS, data=payload, timeout=20)
-        try:
-            res = r.json()
-        except:
-            robot_beep("Invalid server response", 0.05, Fore.RED)
-            return
+        raw = r.text.strip()
     except:
         robot_beep("Network error occurred", 0.05, Fore.RED)
         return
 
+    # WordPress blocked / nonce expired
+    if raw == "0":
+        robot_beep("Request blocked or nonce expired", 0.05, Fore.RED)
+        robot_beep("Update nonce & try again", 0.05, Fore.YELLOW)
+        return
+
+    # Try JSON
+    try:
+        res = json.loads(raw)
+    except:
+        robot_beep("Server did not return valid data", 0.05, Fore.RED)
+        return
+
     if not isinstance(res, dict):
-        robot_beep("Unexpected response from server", 0.05, Fore.RED)
+        robot_beep("Unexpected server response format", 0.05, Fore.RED)
         return
 
     if res.get("success") is not True:
@@ -165,7 +175,7 @@ def numinfo(query):
 
     data = res.get("data")
     if not isinstance(data, dict):
-        robot_beep("No valid data returned", 0.05, Fore.RED)
+        robot_beep("Invalid data received", 0.05, Fore.RED)
         return
 
     records = data.get("Mobile")
@@ -177,9 +187,6 @@ def numinfo(query):
     line("═", Fore.MAGENTA)
 
     for i, rec in enumerate(records, 1):
-        if not isinstance(rec, dict):
-            continue
-
         robot_beep(f"Record {i} Found", 0.04, Fore.LIGHTYELLOW_EX)
         line("─", Fore.MAGENTA)
 
