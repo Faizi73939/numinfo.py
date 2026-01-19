@@ -20,7 +20,7 @@ WIDTH = 72
 TYPE_SPEED = 0.01
 
 API_URL = "https://livetracker.net.pk/wp-admin/admin-ajax.php"
-NONCE = "0fafa43211"   # ⚠️ Expire ho jaye to update karna
+NONCE = "7afcb32be2"   # ⚠️ Expire ho jaye to update karna
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android)",
