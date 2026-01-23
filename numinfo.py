@@ -19,15 +19,15 @@ init(autoreset=True)
 WIDTH = 72
 TYPE_SPEED = 0.01
 
-API_URL = "https://livetracker.net.pk/wp-admin/admin-ajax.php"
-NONCE = "7afcb32be2"   # ⚠️ Expire ho jaye to update karna
+API_URL = "https://rashidminhas.com.pk/blog/sim-owner-details/"
+# NONCE = "7afcb32be2"   # ⚠️ Expire ho jaye to update karna
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android)",
     "Accept": "*/*",
     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-    "Referer": "https://livetracker.net.pk/",
-    "Origin": "https://livetracker.net.pk"
+    "Referer": "https://rashidminhas.com.pk/blog/sim-owner-details/",
+    "Origin": "https://rashidminhas.com.pk/blog/sim-owner-details/"
 }
 
 QUOTES = [
